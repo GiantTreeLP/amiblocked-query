@@ -14,6 +14,6 @@ module.exports = class User {
     }
 
     toSQL() {
-        return `INSERT IGNORE INTO \`BlockedUsers\` VALUES ('0', '${(this.username || "null").replace("'", "\\'")}', '${this.snowflake}', '${(this.note || "").replace('``', '\\`')}', '${this.blocked ? 1 : 0}'}') ON DUPLICATE KEY UPDATE \`id\` = VALUES(\`id\`), \`username\` = VALUES(\`username\`), \`snowflake\` = VALUES(\`snowflake\`), \`note\` = VALUES(\`note\`), \`blocked\` = VALUES(\`blocked\`);`;
+        return `INSERT IGNORE INTO \`BlockedUsers\` VALUES ('0', '${(this.username || "null").replace("'", "\\'")}', '${this.snowflake}', '${(this.note || "").replace("'", "\\'")}', '${this.blocked ? 1 : 0}') ON DUPLICATE KEY UPDATE \`id\` = VALUES(\`id\`), \`username\` = VALUES(\`username\`), \`snowflake\` = VALUES(\`snowflake\`), \`note\` = VALUES(\`note\`), \`blocked\` = VALUES(\`blocked\`);`;
     }
 }
