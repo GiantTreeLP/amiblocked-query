@@ -23,10 +23,18 @@ async function fixUsernames(blockedAndNotes, headers) {
         if (blocked[1].username === null) {
             const userResponse = await fetch(`https://discordapp.com/api/v6/users/${blocked[1].snowflake}/profile`, headers);
             const response = await userResponse.json();
-            response.user = response.user || { username: null };
-            blocked[1].username = response.user.username;
+            response.user = response.user || {username: null, discriminator: null};
+            blocked[1].username = buildUsername(response.user);
             blockedAndNotes.set(blocked[0], blocked[1]);
         }
+    }
+}
+
+function buildUsername(user) {
+    if (user.username) {
+        return user.username + "#" + user.discriminator;
+    } else {
+        return null;
     }
 }
 
@@ -68,10 +76,10 @@ terminal.question("Please enter your OAuth Token: ", async answer => {
     for (const relationship of relationships) {
         let user = blockedAndNotes.get(relationship.id);
         if (user) {
-            user.username = relationship.user.username;
+            user.username = buildUsername(relationship.user);
             user.blocked = relationship.type === Relationship.Blocked;
         } else {
-            user = new User(relationship.user.username,
+            user = new User(buildUsername(relationship.user),
                 relationship.id,
                 null,
                 relationship.type === Relationship.Blocked);
