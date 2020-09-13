@@ -5,7 +5,7 @@
   "author": "GiantTree",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.7"
