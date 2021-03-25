@@ -21,7 +21,7 @@ function toSQL(blockedAndNotes) {
 async function fixUsernames(blockedAndNotes, headers) {
     for (const blocked of blockedAndNotes) {
         if (blocked[1].username === null) {
-            const userResponse = await fetch(`https://discordapp.com/api/v6/users/${blocked[1].snowflake}/profile`, headers);
+            const userResponse = await fetch(`https://discordapp.com/api/v8/users/${blocked[1].snowflake}/profile`, headers);
             const response = await userResponse.json();
             response.user = response.user || {username: null, discriminator: null};
             blocked[1].username = buildUsername(response.user);
@@ -57,10 +57,10 @@ terminal.question("Please enter your OAuth Token: ", async answer => {
         "mode": "cors"
     };
 
-    const notesResponse = await fetch("https://discordapp.com/api/v6/users/@me/notes", headers);
+    const notesResponse = await fetch("https://discordapp.com/api/v8/users/@me/notes", headers);
     const notes = await notesResponse.json();
 
-    const relationshipResponse = await fetch("https://discordapp.com/api/v6/users/@me/relationships", headers);
+    const relationshipResponse = await fetch("https://discordapp.com/api/v8/users/@me/relationships", headers);
     const relationships = await relationshipResponse.json();
 
     const blockedAndNotes = new Map();
@@ -91,5 +91,5 @@ terminal.question("Please enter your OAuth Token: ", async answer => {
 
     console.log(toSQL(blockedAndNotes));
 
-    process.exit();
+    terminal.close();
 });
